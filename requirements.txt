@@ -4,3 +4,4 @@ reportlab
 numpy
 pandas
 scikit-learn
+qrcode[pil]
