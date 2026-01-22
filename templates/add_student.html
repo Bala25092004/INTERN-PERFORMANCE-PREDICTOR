@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2>Add New Student / Intern</h2>
+    <p class="subtitle">Register intern with academic and internship details</p>
+</div>
+
+<form method="POST" class="form-card">
+
+    <div class="form-group">
+        <label>Student ID</label>
+        <input type="text" name="unique_student_id" placeholder="INT001" required>
+    </div>
+
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" name="student_name" required>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="student_email" required>
+    </div>
+
+    <!-- ✅ NEW -->
+    <div class="form-group">
+        <label>College Name</label>
+        <input type="text" name="college_name" placeholder="ABC Engineering College" required>
+    </div>
+
+    <!-- ✅ NEW -->
+    <div class="form-group">
+        <label>Department</label>
+        <select name="department" required>
+            <option value="">Select Department</option>
+            <option>CSE</option>
+            <option>IT</option>
+            <option>ECE</option>
+            <option>EEE</option>
+            <option>MECH</option>
+            <option>CIVIL</option>
+            <option>AI & DS</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Temporary Password</label>
+        <input type="password" name="temp_password" required>
+    </div>
+
+    <!-- Internship details -->
+    <div class="form-group">
+        <label>Internship Type</label>
+        <select name="internship_type" required>
+            <option value="">Select Type</option>
+            <option>Online</option>
+            <option>Offline</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Joining Date</label>
+        <input type="date" name="joining_date" required>
+    </div>
+
+    <div class="form-group">
+        <label>Ending Date</label>
+        <input type="date" name="ending_date" required>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Add Student</button>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+
+</form>
+
+{% endblock %}

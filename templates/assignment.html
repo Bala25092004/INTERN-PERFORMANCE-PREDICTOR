@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Assignment Management{% endblock %}
+
+{% block content %}
+<div class="card">
+
+    <h2>Assignment Management</h2>
+    <p class="subtitle">
+        Review intern submissions and track task progress efficiently.
+    </p>
+
+    <!-- ================= PENDING SUBMISSIONS ================= -->
+    <div class="info-section">
+        <h3>Pending Submissions</h3>
+
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>Intern Name</th>
+                    <th>Task Title</th>
+                    <th>Submission Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- SAMPLE ROW (replace later with dynamic data) -->
+                <tr>
+                    <td>John Doe</td>
+                    <td>Project Report</td>
+                    <td>25 Jul 2025</td>
+                    <td>
+                        <span class="badge submitted">Submitted</span>
+                    </td>
+                    <td>
+                        <button class="btn-sm primary">Review</button>
+                    </td>
+                </tr>
+
+                <!-- EMPTY STATE (future use) -->
+                <!--
+                <tr>
+                    <td colspan="5" class="text-muted">
+                        No pending submissions found.
+                    </td>
+                </tr>
+                -->
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Layout */
+.card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+/* Table */
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.modern-table thead {
+    background: #f3f4f6;
+}
+
+.modern-table th,
+.modern-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modern-table th {
+    font-weight: 700;
+    font-size: 14px;
+    color: #374151;
+}
+
+.modern-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+/* Badge */
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.badge.submitted {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+/* Buttons */
+.btn-sm {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-sm.primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn-sm.primary:hover {
+    background: #1d4ed8;
+}
+
+/* Text */
+.text-muted {
+    color: #6b7280;
+    text-align: center;
+    padding: 20px;
+}
+</style>
+{% endblock %}

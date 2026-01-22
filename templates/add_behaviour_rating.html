@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Behaviour Rating{% endblock %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+    <h2 class="page-title">⭐ Behaviour Rating</h2>
+    <p class="subtitle">
+        Evaluate intern professionalism, attitude, and workplace behaviour
+    </p>
+
+    <form method="POST" class="rating-card">
+
+        <!-- INTERN SELECT -->
+        <div class="form-group">
+            <label for="student_id">Select Intern</label>
+            <select name="student_id" id="student_id" required>
+                <option value="">-- Select Intern --</option>
+                {% for s in students %}
+                    <option value="{{ s.id }}">{{ s.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- RATING -->
+        <div class="form-group">
+            <label for="rating">Behaviour Rating</label>
+            <select name="rating" id="rating" required>
+                <option value="">-- Select Rating --</option>
+                <option value="Excellent">Excellent ⭐⭐⭐⭐⭐</option>
+                <option value="Good">Good ⭐⭐⭐⭐</option>
+                <option value="Average">Average ⭐⭐⭐</option>
+                <option value="Poor">Poor ⭐⭐</option>
+            </select>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="form-group">
+            <label for="comments">Comments (Optional)</label>
+            <textarea name="comments" id="comments" rows="4"
+                placeholder="Write behaviour remarks, professionalism, attitude..."></textarea>
+        </div>
+
+        <!-- SUBMIT -->
+        <button type="submit" class="btn-primary">
+            💾 Save Behaviour Rating
+        </button>
+
+    </form>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* Page Wrapper */
+.page-wrapper {
+    max-width: 520px;
+}
+
+/* Title */
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+/* Card */
+.rating-card {
+    background: #ffffff;
+    padding: 26px;
+    border-radius: 16px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Form Group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+}
+
+/* Inputs */
+select,
+textarea {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+/* Button */
+.btn-primary {
+    margin-top: 10px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    padding: 13px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(37,99,235,0.35);
+}
+
+</style>
+{% endblock %}

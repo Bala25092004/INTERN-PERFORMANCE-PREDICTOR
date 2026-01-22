@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Attendance{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">Attendance Management</h2>
+<p class="subtitle">
+    Online interns → Auto (Login based) |
+    Offline interns → Manual marking
+</p>
+
+<!-- DATE PICKER -->
+<form method="GET" action="{{ url_for('attendance') }}" class="date-form">
+    <input type="date" name="selected_date" value="{{ current_date }}">
+    <button type="submit" class="btn btn-primary">View</button>
+</form>
+
+<!-- ATTENDANCE TABLE -->
+<table class="clean-table">
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Intern Name</th>
+            <th>Internship Type</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% if attendance_records %}
+        {% for record in attendance_records %}
+        <tr>
+            <!-- record structure:
+                 0 = student_db_id
+                 1 = unique_student_id
+                 2 = name
+                 3 = attendance status
+                 4 = internship_type (Online / Offline)
+            -->
+
+            <td>{{ record[1] }}</td>
+            <td>{{ record[2] }}</td>
+
+            <!-- Internship Type -->
+            <td>
+                {% if record[4] == 'Online' %}
+                    <span class="badge online">Online</span>
+                {% else %}
+                    <span class="badge offline">Offline</span>
+                {% endif %}
+            </td>
+
+            <!-- Attendance Status -->
+            <td>
+                {% if record[3] == 'present' %}
+                    <span class="badge present">Present</span>
+                {% elif record[3] == 'absent' %}
+                    <span class="badge absent">Absent</span>
+                {% else %}
+                    <span class="badge gray">Not Recorded</span>
+                {% endif %}
+            </td>
+
+            <!-- ACTION -->
+            <td>
+                {% if record[4] == 'Online' %}
+                    <!-- ONLINE INTERN -->
+                    <span class="badge auto">Auto (Login)</span>
+                {% else %}
+                    <!-- OFFLINE INTERN -->
+                    <form method="POST"
+                          action="{{ url_for('mark_attendance') }}"
+                          style="display:flex; gap:6px;">
+                        <input type="hidden" name="student_id" value="{{ record[0] }}">
+                        <input type="hidden" name="attendance_date" value="{{ current_date }}">
+
+                        <button type="submit" name="status" value="present"
+                                class="btn-sm blue">Present</button>
+
+                        <button type="submit" name="status" value="absent"
+                                class="btn-sm red">Absent</button>
+
+                        <button type="submit" name="status" value="not_recorded"
+                                class="btn-sm gray">Clear</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="5">No students found</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "advanced_base.html" %}
+
+{% block title %}Overall Intern Performance{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Overall Intern Performance</h2>
+    <p class="subtitle">
+        Here's a summary of all interns' performance based on calculated weighted scores.
+    </p>
+
+    {% if performance_summaries %}
+    <div class="table-wrapper">
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>Intern ID</th>
+                    <th>Intern Name</th>
+                    <th>Overall Score</th>
+                    <th>Performance Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in performance_summaries %}
+                <tr>
+                    <td>{{ student.unique_student_id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td><strong>{{ "%.2f"|format(student.overall_score) }}%</strong></td>
+                    <td>
+                        <span class="status status-{{ student.category|lower }}">
+                            {{ student.category }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert">
+            No intern performance data available yet.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+/* Table container */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+/* Modern table */
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.modern-table th {
+    background: #f1f5f9;
+    padding: 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.modern-table td {
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modern-table tr:hover {
+    background: #f9fafb;
+}
+
+/* Status badges */
+.status {
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-excellent {
+    background: #22c55e;
+    color: #ffffff;
+}
+
+.status-good {
+    background: #38bdf8;
+    color: #003344;
+}
+
+.status-average {
+    background: #facc15;
+    color: #4a3b00;
+}
+
+.status-poor {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+/* Alert */
+.alert {
+    padding: 14px;
+    background: #e0f2fe;
+    border-radius: 10px;
+    color: #0369a1;
+}
+</style>
+{% endblock %}

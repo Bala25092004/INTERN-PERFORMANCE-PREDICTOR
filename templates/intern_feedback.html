@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}My Feedback{% endblock %}
+
+{% block content %}
+
+<h2>📋 My Feedback</h2>
+<p>Admin provided feedback about your internship performance.</p>
+
+{% if feedback_records %}
+
+<table border="1" width="100%" cellpadding="8">
+    <tr>
+        <th>Date</th>
+        <th>Task</th>
+        <th>Feedback</th>
+        <th>Category</th>
+        <th>Given By</th>
+    </tr>
+
+    {% for row in feedback_records %}
+    <tr>
+        <td>{{ row[2] }}</td>  <!-- feedback_date -->
+        <td>
+            {% if row[3] %}
+                {{ row[3] }}
+            {% else %}
+                General
+            {% endif %}
+        </td>
+        <td>{{ row[0] }}</td>  <!-- comments -->
+        <td>{{ row[1] }}</td>  <!-- category -->
+        <td>{{ row[4] }}</td>  <!-- admin username -->
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<p>No feedback received yet.</p>
+{% endif %}
+
+{% endblock %}

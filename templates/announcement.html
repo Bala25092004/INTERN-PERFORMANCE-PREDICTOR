@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Announcements{% endblock %}
+
+{% block content %}
+    <h2>Manage Announcements</h2>
+    <p>Publish important announcements for all interns.</p>
+    <!-- Content for Announcements -->
+    <form>
+        <label for="announcement_title">Title:</label>
+        <input type="text" id="announcement_title" name="announcement_title" required>
+
+        <label for="announcement_content">Content:</label>
+        <textarea id="announcement_content" name="announcement_content" rows="8"></textarea>
+
+        <button type="submit">Publish Announcement</button>
+    </form>
+
+    <div class="info-section" style="margin-top: 30px;">
+        <h3>Previous Announcements</h3>
+        <ul>
+            <li><strong>2025-07-20:</strong> Internship Review Meeting on Friday.</li>
+            <li><strong>2025-07-15:</strong> New task submission guidelines released.</li>
+        </ul>
+    </div>
+{% endblock %}

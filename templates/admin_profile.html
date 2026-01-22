@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Profile{% endblock %}
+
+{% block content %}
+    <h2>Admin Profile</h2>
+    <p>View and edit your admin information here, {{ username }}.</p>
+    <!-- Content for Admin Profile -->
+    <div class="info-section">
+        <h3>Profile Details</h3>
+        <p><strong>Username:</strong> {{ username }}</p>
+        <p><strong>Role:</strong> Admin</p>
+        <p>Further profile details and edit options will be added here.</p>
+    </div>
+{% endblock %}

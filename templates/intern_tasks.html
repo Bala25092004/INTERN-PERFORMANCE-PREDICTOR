@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">📝 My Assigned Tasks</h2>
+<p class="subtitle">Track your tasks, deadlines, status and marks</p>
+
+{% if tasks %}
+<div class="card">
+
+    <table class="task-table">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Mark</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td class="task-title">{{ task[0] }}</td>
+                <td class="task-desc">{{ task[1] }}</td>
+                <td>{{ task[2] }}</td>
+
+                <td>
+                    {% if task[3] == 'completed' %}
+                        <span class="status completed">Completed</span>
+                    {% elif task[3] == 'pending' %}
+                        <span class="status pending">Pending</span>
+                    {% else %}
+                        <span class="status">{{ task[3]|capitalize }}</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if task[4] is not none %}
+                        <strong>{{ task[4] }}</strong>
+                    {% else %}
+                        <span class="muted">N/A</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% else %}
+<div class="card empty-card">
+    <p>🚫 No tasks assigned to you yet.</p>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* PAGE TEXT */
+.page-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+/* CARD */
+.card {
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* TABLE */
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.task-table th {
+    background: #f3f4f6;
+    text-align: left;
+    padding: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+}
+
+.task-table td {
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+}
+
+.task-title {
+    font-weight: 700;
+}
+
+.task-desc {
+    color: #6b7280;
+    max-width: 300px;
+}
+
+/* STATUS BADGES */
+.status {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.muted {
+    color: #9ca3af;
+}
+
+/* EMPTY */
+.empty-card {
+    text-align: center;
+    color: #6b7280;
+    font-size: 16px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .task-table,
+    .task-table thead,
+    .task-table tbody,
+    .task-table th,
+    .task-table td,
+    .task-table tr {
+        display: block;
+    }
+
+    .task-table thead {
+        display: none;
+    }
+
+    .task-table tr {
+        margin-bottom: 16px;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        padding: 12px;
+    }
+
+    .task-table td {
+        padding-left: 50%;
+        position: relative;
+        border-bottom: none;
+    }
+
+    .task-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 12px;
+        font-weight: 700;
+        color: #374151;
+    }
+}
+</style>
+{% endblock %}

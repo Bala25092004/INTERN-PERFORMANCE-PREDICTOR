@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+{% block title %}Intern Dashboard{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">👋 Welcome, {{ username }}</h2>
+<p class="subtitle">Here’s a snapshot of your internship progress</p>
+
+<!-- ================= QUICK STATS ================= -->
+<div class="stats-grid">
+    <div class="stat-box gradient-blue">
+        <h4>Today's Attendance</h4>
+        <p>{{ today_attendance_status|capitalize }}</p>
+    </div>
+    <div class="stat-box gradient-green">
+        <h4>Overall Performance</h4>
+        <p>{{ overall_score }}% <span>({{ predicted_performance }})</span></p>
+    </div>
+</div>
+
+<!-- ================= DASHBOARD CARDS ================= -->
+<div class="dashboard-grid">
+
+    <a href="{{ url_for('intern_tasks') }}" class="dash-card">
+        <div class="dash-icon">📝</div>
+        <h3>My Tasks</h3>
+        <p>View assigned tasks</p>
+    </a>
+
+    <a href="{{ url_for('intern_attendance') }}" class="dash-card">
+        <div class="dash-icon">📅</div>
+        <h3>Attendance</h3>
+        <p>Daily attendance records</p>
+    </a>
+
+    <a href="{{ url_for('intern_performance') }}" class="dash-card">
+        <div class="dash-icon">📈</div>
+        <h3>Performance</h3>
+        <p>Score & analysis</p>
+    </a>
+
+    <a href="{{ url_for('intern_feedback') }}" class="dash-card">
+        <div class="dash-icon">💬</div>
+        <h3>Admin Feedback</h3>
+        <p>Read remarks</p>
+    </a>
+
+    <a href="{{ url_for('intern_send_feedback') }}" class="dash-card">
+        <div class="dash-icon">✉️</div>
+        <h3>Send Feedback</h3>
+        <p>Ask questions</p>
+    </a>
+
+    <a href="{{ url_for('intern_courses') }}" class="dash-card">
+        <div class="dash-icon">📚</div>
+        <h3>Courses</h3>
+        <p>Suggested courses</p>
+    </a>
+
+    <a href="{{ url_for('intern_profile') }}" class="dash-card">
+        <div class="dash-icon">👤</div>
+        <h3>Profile</h3>
+        <p>View details</p>
+    </a>
+
+    <a href="{{ url_for('intern_leave_permission') }}" class="dash-card danger">
+        <div class="dash-icon">✈️</div>
+        <h3>Leave</h3>
+        <p>Apply for leave</p>
+    </a>
+
+</div>
+
+<!-- ================= TASK TABLE ================= -->
+<div class="card">
+    <h3>📌 Latest Tasks</h3>
+
+    {% if tasks %}
+    <table class="clean-table">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Mark</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task[0] }}</td>
+                <td>{{ task[2] }}</td>
+                <td>
+                    <span class="badge {{ task[3]|lower }}">
+                        {{ task[3]|capitalize }}
+                    </span>
+                </td>
+                <td>{{ task[4] if task[4] else "N/A" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="muted">No tasks assigned yet.</p>
+    {% endif %}
+</div>
+
+<!-- ================= CERTIFICATE ================= -->
+{% if certificate_eligible %}
+<div class="certificate-card">
+    <div>
+        <h3>🎓 Internship Certificate</h3>
+        <p>Your certificate is ready for download</p>
+    </div>
+    <a href="{{ url_for('download_certificate') }}" class="btn-download">
+        ⬇ Download
+    </a>
+</div>
+{% endif %}
+
+<!-- ================= COURSES ================= -->
+<div class="card">
+    <h3>🎯 Suggested Courses</h3>
+    {% if suggested_courses %}
+        <ul class="course-list">
+            {% for course in suggested_courses %}
+                <li>📘 {{ course }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="muted">No course suggestions yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ================= GLOBAL ================= */
+.page-title {
+    font-size: 30px;
+    font-weight: 800;
+}
+.subtitle {
+    color:#6b7280;
+    margin-bottom:22px;
+}
+
+/* ================= STATS ================= */
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:18px;
+    margin-bottom:26px;
+}
+.stat-box{
+    padding:20px;
+    border-radius:16px;
+    color:white;
+    font-weight:700;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+.gradient-blue{
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+}
+.gradient-green{
+    background:linear-gradient(135deg,#16a34a,#4ade80);
+}
+
+/* ================= DASHBOARD ================= */
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:20px;
+}
+.dash-card{
+    background:#ffffff;
+    padding:22px;
+    border-radius:18px;
+    text-align:center;
+    text-decoration:none;
+    color:#111827;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+.dash-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 14px 30px rgba(0,0,0,0.12);
+}
+.dash-icon{
+    font-size:34px;
+    background:#f3f4f6;
+    width:60px;
+    height:60px;
+    margin:auto;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:10px;
+}
+.dash-card.danger{
+    border:2px solid #fee2e2;
+}
+
+/* ================= CARD ================= */
+.card{
+    background:#fff;
+    padding:24px;
+    border-radius:18px;
+    margin-top:28px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* ================= TABLE ================= */
+.clean-table{
+    width:100%;
+    border-collapse:collapse;
+}
+.clean-table th{
+    background:#f8fafc;
+    padding:12px;
+}
+.clean-table td{
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+/* ================= BADGE ================= */
+.badge{
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:13px;
+}
+.badge.completed{ background:#dcfce7; color:#166534; }
+.badge.pending{ background:#fee2e2; color:#991b1b; }
+
+/* ================= CERTIFICATE ================= */
+.certificate-card{
+    margin-top:25px;
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+    color:white;
+    padding:22px;
+    border-radius:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 10px 25px rgba(22,163,74,0.4);
+}
+.btn-download{
+    background:white;
+    color:#16a34a;
+    padding:10px 18px;
+    border-radius:10px;
+    font-weight:700;
+    text-decoration:none;
+}
+
+/* ================= COURSES ================= */
+.course-list li{
+    padding:8px 0;
+    border-bottom:1px dashed #e5e7eb;
+}
+
+.muted{ color:#6b7280; }
+
+</style>
+{% endblock %}

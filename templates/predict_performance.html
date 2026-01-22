@@ -1,0 +1,153 @@
+{% extends "advanced_base.html" %}
+
+{% block title %}Overall Intern Performance{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Overall Intern Performance</h2>
+    <p style="color:#6b7280;margin-bottom:24px;">
+        Summary of intern performance based on weighted evaluation.
+    </p>
+
+    {% if performance_summaries %}
+    <div class="performance-layout">
+
+        <!-- TABLE -->
+        <div class="table-container">
+            <h3>Detailed Scores</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Intern ID</th>
+                        <th>Name</th>
+                        <th>Overall Score</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for s in performance_summaries %}
+                    <tr>
+                        <td>{{ s.unique_student_id }}</td>
+                        <td>{{ s.name }}</td>
+                        <td><strong>{{ "%.2f"|format(s.overall_score) }}%</strong></td>
+                        <td>
+                            <span class="status-{{ s.category|lower }}">
+                                {{ s.category }}
+                            </span>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CHARTS -->
+        <div class="charts-column">
+            <div class="card">
+                <h3>Performance Distribution</h3>
+                <canvas id="performanceChart"></canvas>
+            </div>
+
+            <div class="card">
+                <h3>Category Breakdown</h3>
+                <canvas id="categoryPieChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+    {% else %}
+        <div class="alert">No performance data available</div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.performance-layout {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.table-container {
+    flex: 1.2;
+    min-width: 450px;
+}
+
+.charts-column {
+    flex: 1;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.status-excellent { background:#22c55e;color:#fff;padding:4px 10px;border-radius:20px; }
+.status-good { background:#38bdf8;color:#003344;padding:4px 10px;border-radius:20px; }
+.status-average { background:#facc15;color:#4a3b00;padding:4px 10px;border-radius:20px; }
+.status-poor { background:#ef4444;color:#fff;padding:4px 10px;border-radius:20px; }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+Chart.register(ChartDataLabels);
+
+const data = {{ performance_summaries | tojson }};
+
+// BAR
+new Chart(document.getElementById("performanceChart"), {
+    type: "bar",
+    data: {
+        labels: data.map(s => s.name),
+        datasets: [{
+            data: data.map(s => s.overall_score),
+            backgroundColor: data.map(s =>
+                s.overall_score >= 90 ? "#22c55e" :
+                s.overall_score >= 75 ? "#38bdf8" :
+                s.overall_score >= 60 ? "#facc15" :
+                "#ef4444"
+            ),
+            borderRadius: 8
+        }]
+    },
+    options: {
+        indexAxis: "y",
+        plugins: {
+            legend: { display: false },
+            datalabels: {
+                formatter: v => v.toFixed(1) + "%"
+            }
+        },
+        scales: {
+            x: { beginAtZero: true, max: 100 }
+        }
+    }
+});
+
+// PIE
+const cat = {Excellent:0,Good:0,Average:0,Poor:0};
+data.forEach(s => cat[s.category]++);
+
+new Chart(document.getElementById("categoryPieChart"), {
+    type: "pie",
+    data: {
+        labels: Object.keys(cat),
+        datasets: [{
+            data: Object.values(cat),
+            backgroundColor: ["#22c55e","#38bdf8","#facc15","#ef4444"]
+        }]
+    },
+    options: {
+        plugins: {
+            datalabels: {
+                formatter: (v, ctx) => {
+                    const sum = ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+                    return sum ? ((v/sum)*100).toFixed(1)+"%" : "";
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

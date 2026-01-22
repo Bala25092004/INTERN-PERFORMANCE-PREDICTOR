@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Pending Tasks{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">Pending Tasks</h2>
+<p class="subtitle">Tasks that are not yet completed by interns</p>
+
+{% if pending_tasks %}
+<div class="info-section">
+    <table class="clean-table">
+        <thead>
+            <tr>
+                <th>Task Title</th>
+                <th>Intern Name</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in pending_tasks %}
+            <tr>
+                <td>{{ task[0] }}</td>
+                <td>{{ task[1] }}</td>
+                <td>{{ task[2] }}</td>
+                <td>
+                    <span class="status-pending">Pending</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <h3>🎉 No Pending Tasks</h3>
+    <p>All tasks have been completed successfully.</p>
+</div>
+{% endif %}
+
+{% endblock %}

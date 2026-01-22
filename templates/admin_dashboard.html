@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="admin-header">
+    <h2>👑 Welcome, <span>{{ username }}</span></h2>
+    <p class="subtitle">Intern Performance Management Panel</p>
+</div>
+
+<div class="admin-grid">
+
+    <a href="{{ url_for('add_student') }}" class="admin-card gradient-cyan">
+        <div class="icon">➕</div>
+        <h3>Add Intern</h3>
+        <p>Enroll new student</p>
+    </a>
+
+    <a href="{{ url_for('student_list') }}" class="admin-card gradient-purple">
+        <div class="icon">👨‍🎓</div>
+        <h3>Total Interns</h3>
+        <p>{{ total_students }} Registered</p>
+    </a>
+
+    <a href="{{ url_for('attendance') }}" class="admin-card gradient-green">
+        <div class="icon">✅</div>
+        <h3>Attendance</h3>
+        <p>Mark & View</p>
+    </a>
+
+    <a href="{{ url_for('pending_tasks') }}" class="admin-card gradient-red">
+        <div class="icon">⏳</div>
+        <h3>Pending Tasks</h3>
+        <p>{{ pending_tasks }} Tasks</p>
+    </a>
+
+    <a href="{{ url_for('admin_performance_overview') }}" class="admin-card gradient-orange">
+        <div class="icon">📈</div>
+        <h3>Performance</h3>
+        <p>Overall Analysis</p>
+    </a>
+
+    <a href="{{ url_for('add_courses') }}" class="admin-card gradient-blue">
+        <div class="icon">📚</div>
+        <h3>Courses</h3>
+        <p>Manage Subjects</p>
+    </a>
+
+    <a href="{{ url_for('add_task') }}" class="admin-card gradient-yellow">
+        <div class="icon">📝</div>
+        <h3>Assign Tasks</h3>
+        <p>Create New</p>
+    </a>
+
+    <a href="{{ url_for('admin_complete_tasks') }}" class="admin-card gradient-indigo">
+        <div class="icon">✔️</div>
+        <h3>Complete Tasks</h3>
+        <p>Mark & Grade</p>
+    </a>
+
+    <a href="{{ url_for('add_feedback') }}" class="admin-card gradient-pink">
+        <div class="icon">💬</div>
+        <h3>Feedback</h3>
+        <p>Intern Reviews</p>
+    </a>
+
+    <a href="{{ url_for('add_behaviour_rating') }}" class="admin-card gradient-teal">
+        <div class="icon">⭐</div>
+        <h3>Behaviour</h3>
+        <p>Rate Interns</p>
+    </a>
+
+    <a href="{{ url_for('admin_view_student_feedback') }}" class="admin-card gradient-gray">
+        <div class="icon">✉️</div>
+        <h3>Student Messages</h3>
+        <p>View Feedback</p>
+    </a>
+
+    <a href="{{ url_for('student_list') }}" class="admin-card gradient-green">
+        <div class="icon">🎓</div>
+        <h3>Certificates</h3>
+        <p>Generate Certificate</p>
+    </a>
+
+    <a href="{{ url_for('admin_leave_requests') }}" class="admin-card gradient-brown">
+        <div class="icon">✈️</div>
+        <h3>Leave Requests</h3>
+        <p>Approve / Reject</p>
+    </a>
+
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ===== HEADER ===== */
+.admin-header h2{
+    font-size:32px;
+    font-weight:800;
+}
+.subtitle{
+    color:#6b7280;
+    margin-bottom:25px;
+}
+
+/* ===== GRID ===== */
+.admin-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+/* ===== CARDS ===== */
+.admin-card{
+    text-decoration:none;
+    color:white;
+    padding:22px;
+    border-radius:18px;
+    text-align:center;
+    font-weight:700;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+.admin-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.25);
+}
+.admin-card .icon{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+/* ===== GRADIENT COLORS ===== */
+.gradient-cyan{background:linear-gradient(135deg,#06b6d4,#22d3ee);}
+.gradient-purple{background:linear-gradient(135deg,#7c3aed,#a78bfa);}
+.gradient-green{background:linear-gradient(135deg,#16a34a,#4ade80);}
+.gradient-red{background:linear-gradient(135deg,#dc2626,#f87171);}
+.gradient-orange{background:linear-gradient(135deg,#f97316,#fb923c);}
+.gradient-blue{background:linear-gradient(135deg,#2563eb,#60a5fa);}
+.gradient-yellow{background:linear-gradient(135deg,#facc15,#fde047);}
+.gradient-indigo{background:linear-gradient(135deg,#4f46e5,#818cf8);}
+.gradient-pink{background:linear-gradient(135deg,#ec4899,#f9a8d4);}
+.gradient-teal{background:linear-gradient(135deg,#14b8a6,#5eead4);}
+.gradient-gray{background:linear-gradient(135deg,#64748b,#94a3b8);}
+.gradient-brown{background:linear-gradient(135deg,#78350f,#a16207);}
+
+</style>
+{% endblock %}

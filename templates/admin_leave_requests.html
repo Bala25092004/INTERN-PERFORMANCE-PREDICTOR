@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>📩 Intern Leave Requests</h2>
+
+<table border="1" width="100%" cellpadding="8">
+<tr>
+  <th>ID</th>
+  <th>Name</th>
+  <th>Intern ID</th>
+  <th>Reason</th>
+  <th>From</th>
+  <th>To</th>
+  <th>Status</th>
+  <th>Action</th>
+</tr>
+
+{% for row in leave_requests %}
+<tr>
+  <td>{{ row[0] }}</td>  <!-- Request ID -->
+  <td>{{ row[1] }}</td>  <!-- Student Name -->
+  <td>{{ row[2] }}</td>  <!-- Unique Student ID -->
+  <td>{{ row[3] }}</td>  <!-- Reason -->
+  <td>{{ row[4] }}</td>  <!-- From Date -->
+  <td>{{ row[5] }}</td>  <!-- To Date -->
+  <td>{{ row[6] }}</td>  <!-- Status -->
+
+  <!-- ✅ Action Buttons -->
+  <td>
+    {% if row[6] == 'Pending' %}
+       <a href="{{ url_for('update_leave_status', leave_id=row[0], action='Approved') }}">Approve</a>
+       |
+       <a href="{{ url_for('update_leave_status', leave_id=row[0], action='Rejected') }}">Reject</a>
+    {% else %}
+       {{ row[6] }}
+    {% endif %}
+  </td>
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}

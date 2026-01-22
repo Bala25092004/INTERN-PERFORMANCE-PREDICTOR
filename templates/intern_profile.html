@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Your Profile{% endblock %}
+
+{% block content %}
+
+<div class="profile-container">
+
+    <h2 class="page-title">My Profile</h2>
+    <p class="subtitle">View your personal and internship details</p>
+
+    {% if student_profile %}
+    <div class="profile-card">
+
+        <!-- Avatar -->
+        <div class="profile-header">
+            <div class="avatar">
+                {{ student_profile.name[0] }}
+            </div>
+            <div>
+                <h3>{{ student_profile.name }}</h3>
+                <p class="muted">{{ student_profile.email }}</p>
+            </div>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="profile-details">
+            <div class="detail-item">
+                <span>Student ID</span>
+                <strong>{{ student_profile.unique_student_id }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Assigned Course</span>
+                <strong>{{ student_profile.course or "Not Assigned" }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Role</span>
+                <strong>Intern</strong>
+            </div>
+        </div>
+
+    </div>
+    {% else %}
+        <p>No profile information available.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.profile-container {
+    max-width: 800px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+/* Profile Card */
+.profile-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #00d4ff);
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.muted {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* Details Grid */
+.profile-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.detail-item {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.detail-item span {
+    display: block;
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+.detail-item strong {
+    font-size: 16px;
+    color: #111827;
+}
+</style>
+{% endblock %}

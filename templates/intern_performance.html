@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}My Performance{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">📊 My Performance Analysis</h2>
+<p class="subtitle">Detailed breakdown of your internship performance</p>
+
+{% if performance_data %}
+
+<!-- ================= OVERALL SCORE CARD ================= -->
+<div class="card overall-card">
+    <h3>Overall Performance</h3>
+
+    <div class="overall-score">
+        <span class="score">{{ performance_data.overall_score }}%</span>
+        <span class="badge {{ performance_data.category|lower }}">
+            {{ performance_data.category }}
+        </span>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar"
+             style="width: {{ performance_data.overall_score }}%;">
+        </div>
+    </div>
+</div>
+
+<!-- ================= BREAKDOWN ================= -->
+<h3 class="section-title">📌 Performance Breakdown</h3>
+
+<div class="breakdown-grid">
+
+    <!-- Attendance -->
+    <div class="factor-card">
+        <h4>📅 Attendance</h4>
+        <p class="value">{{ performance_data.breakdown.attendance.value }}%</p>
+        <div class="progress-sm">
+            <div style="width: {{ performance_data.breakdown.attendance.value }}%"></div>
+        </div>
+        <p class="weight">
+            Weight: {{ (performance_data.breakdown.attendance.weight * 100)|int }}%
+        </p>
+    </div>
+
+    <!-- Task Marks -->
+    <div class="factor-card">
+        <h4>📝 Task Performance</h4>
+        <p class="value">{{ performance_data.breakdown.task_mark.value }}%</p>
+        <div class="progress-sm">
+            <div style="width: {{ performance_data.breakdown.task_mark.value }}%"></div>
+        </div>
+        <p class="weight">
+            Weight: {{ (performance_data.breakdown.task_mark.weight * 100)|int }}%
+        </p>
+    </div>
+
+    <!-- Behaviour -->
+    <div class="factor-card">
+        <h4>⭐ Behaviour</h4>
+        <p class="value">{{ performance_data.breakdown.behaviour.value }}%</p>
+        <div class="progress-sm">
+            <div style="width: {{ performance_data.breakdown.behaviour.value }}%"></div>
+        </div>
+        <p class="weight">
+            Weight: {{ (performance_data.breakdown.behaviour.weight * 100)|int }}%
+        </p>
+    </div>
+
+    <!-- Feedback -->
+    <div class="factor-card">
+        <h4>💬 Admin Feedback</h4>
+        <p class="value">{{ performance_data.breakdown.feedback.value }}%</p>
+        <div class="progress-sm">
+            <div style="width: {{ performance_data.breakdown.feedback.value }}%"></div>
+        </div>
+        <p class="weight">
+            Weight: {{ (performance_data.breakdown.feedback.weight * 100)|int }}%
+        </p>
+    </div>
+
+    <!-- Courses -->
+    <div class="factor-card">
+        <h4>📚 Course Completion</h4>
+        <p class="value">{{ performance_data.breakdown.course_completion.value }}%</p>
+        <div class="progress-sm">
+            <div style="width: {{ performance_data.breakdown.course_completion.value }}%"></div>
+        </div>
+        <p class="weight">
+            Weight: {{ (performance_data.breakdown.course_completion.weight * 100)|int }}%
+        </p>
+    </div>
+
+</div>
+
+{% else %}
+<div class="card empty-card">
+    <p>No performance data available yet.</p>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ================= TITLES ================= */
+.page-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+.section-title {
+    margin: 30px 0 16px;
+}
+
+/* ================= CARD ================= */
+.card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* ================= OVERALL ================= */
+.overall-card {
+    max-width: 600px;
+}
+
+.overall-score {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.score {
+    font-size: 36px;
+    font-weight: 800;
+}
+
+/* ================= BADGES ================= */
+.badge {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.badge.excellent { background: #dcfce7; color: #166534; }
+.badge.good { background: #cffafe; color: #075985; }
+.badge.average { background: #fef3c7; color: #92400e; }
+.badge.poor { background: #fee2e2; color: #991b1b; }
+
+/* ================= PROGRESS ================= */
+.progress-container {
+    background: #e5e7eb;
+    border-radius: 999px;
+    height: 14px;
+    overflow: hidden;
+}
+.progress-bar {
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    height: 100%;
+}
+
+/* ================= GRID ================= */
+.breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* ================= FACTOR CARD ================= */
+.factor-card {
+    background: #f9fafb;
+    padding: 18px;
+    border-radius: 14px;
+}
+
+.factor-card h4 {
+    margin-bottom: 6px;
+}
+
+.value {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.progress-sm {
+    background: #e5e7eb;
+    height: 8px;
+    border-radius: 999px;
+    margin: 6px 0;
+    overflow: hidden;
+}
+.progress-sm div {
+    background: #2563eb;
+    height: 100%;
+}
+
+.weight {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ================= EMPTY ================= */
+.empty-card {
+    text-align: center;
+    color: #6b7280;
+}
+
+</style>
+{% endblock %}

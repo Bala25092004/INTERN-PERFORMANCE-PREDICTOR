@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Intern Feedback{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">📨 Intern Feedback</h2>
+<p class="subtitle">Review feedback and messages submitted by interns</p>
+
+<div class="card">
+{% if student_feedback_records %}
+<table class="feedback-table">
+    <thead>
+        <tr>
+            <th>Date & Time</th>
+            <th>Intern</th>
+            <th>Subject</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for f in student_feedback_records %}
+        <tr>
+            <td>{{ f[2] }}</td>
+            <td>
+                <strong>{{ f[3] }}</strong><br>
+                <span class="muted">{{ f[4] }}</span>
+            </td>
+            <td class="subject">{{ f[0] }}<br></td>
+            <td class="message">{{ f[1] }} <br> </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No feedback available.</p>
+{% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* CARD */
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.08);
+    overflow-x:auto;
+}
+
+/* TABLE */
+.feedback-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;   /* 🔥 IMPORTANT */
+}
+
+/* HEADER */
+.feedback-table th{
+    background:#f3f4f6;
+    padding:14px;
+    text-align:left;
+    font-size:13px;
+    text-transform:uppercase;
+    color:#374151;
+}
+
+/* CELLS */
+.feedback-table td{
+    padding:14px;
+    border-bottom:1px solid #e5e7eb;
+    vertical-align:top;
+    word-break:break-word;
+}
+
+/* COLUMN WIDTHS */
+.feedback-table th:nth-child(1),
+.feedback-table td:nth-child(1){ width:170px; }
+
+.feedback-table th:nth-child(2),
+.feedback-table td:nth-child(2){ width:180px; }
+
+.feedback-table th:nth-child(3),
+.feedback-table td:nth-child(3){ width:220px; }
+
+.feedback-table th:nth-child(4),
+.feedback-table td:nth-child(4){ width:auto; }
+
+/* TEXT */
+.muted{ color:#6b7280; font-size:13px; }
+.subject{ font-weight:600; color:#1f2937; }
+.message{ line-height:1.6; }
+
+/* HOVER */
+.feedback-table tbody tr:hover{
+    background:#f9fafb;
+}
+
+</style>
+{% endblock %}

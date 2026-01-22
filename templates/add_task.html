@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Add Task{% endblock %}
+
+{% block content %}
+<div class="card">
+
+    <h2>Add New Task</h2>
+    <p class="subtitle">
+        Create and assign tasks to interns with deadlines and descriptions.
+    </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- ================= ADD TASK FORM ================= -->
+    <form method="POST" class="modern-form">
+
+        <!-- 🔥 ASSIGN TYPE -->
+        <div class="form-group">
+            <label for="assign_type">Assign Type</label>
+            <select id="assign_type" name="assign_type" required>
+                <option value="">Select</option>
+                <option value="single">Single Intern</option>
+                <option value="all">All Interns</option>
+            </select>
+        </div>
+
+        <!-- INTERN SELECT -->
+        <div class="form-group" id="studentBox">
+            <label for="assigned_student">Assign To Intern</label>
+            <select id="assigned_student" name="assigned_to">
+                <option value="">Select Intern</option>
+                {% for student in students %}
+                    <option value="{{ student[0] }}">
+                        {{ student[1] }} ({{ student[0] }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- TASK TITLE -->
+        <div class="form-group">
+            <label for="task_title">Task Title</label>
+            <input
+                type="text"
+                id="task_title"
+                name="task_title"
+                required
+                placeholder="e.g., Complete Flask Authentication">
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="form-group">
+            <label for="task_description">Task Description</label>
+            <textarea
+                id="task_description"
+                name="task_description"
+                rows="5"
+                placeholder="Explain the task requirements clearly..."></textarea>
+        </div>
+
+        <!-- DUE DATE -->
+        <div class="form-group">
+            <label for="due_date">Due Date</label>
+            <input type="date" id="due_date" name="due_date" required>
+        </div>
+
+        <button type="submit" class="btn-primary">
+            📝 Assign Task
+        </button>
+
+    </form>
+</div>
+
+<!-- 🔥 JS: hide intern dropdown if ALL interns -->
+<script>
+document.getElementById("assign_type").addEventListener("change", function () {
+    const studentBox = document.getElementById("studentBox");
+    if (this.value === "all") {
+        studentBox.style.display = "none";
+    } else {
+        studentBox.style.display = "block";
+    }
+});
+</script>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Card */
+.card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    max-width: 700px;
+}
+
+/* Subtitle */
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+/* Form */
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+/* Button */
+.btn-primary {
+    margin-top: 10px;
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+</style>
+{% endblock %}

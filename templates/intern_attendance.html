@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}My Attendance{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">📅 My Attendance</h2>
+<p class="subtitle">View your daily attendance status</p>
+
+{% if attendance_records %}
+<div class="card">
+
+    <table class="attendance-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>
+                    {% if record[1] == 'present' %}
+                        <span class="status present">Present</span>
+                    {% elif record[1] == 'absent' %}
+                        <span class="status absent">Absent</span>
+                    {% else %}
+                        <span class="status not-recorded">Not Recorded</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% else %}
+<div class="card empty-card">
+    <p>🚫 No attendance records found.</p>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.page-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+/* CARD */
+.card {
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    max-width: 600px;
+}
+
+/* TABLE */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.attendance-table th {
+    background: #f3f4f6;
+    padding: 14px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.attendance-table td {
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* STATUS */
+.status {
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.present {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.absent {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status.not-recorded {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.empty-card {
+    text-align: center;
+    color: #6b7280;
+}
+</style>
+{% endblock %}

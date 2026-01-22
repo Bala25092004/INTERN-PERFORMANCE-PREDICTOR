@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Your Attendance{% endblock %}
+
+{% block content %}
+    <h2>Your Attendance Records</h2>
+    <p>Here is a history of your attendance.</p>
+
+    {% if attendance_records %}
+        <div class="info-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance_records %}
+                        <tr>
+                            <td>{{ record[0] }}</td>
+                            <td>
+                                {% if record[1] == 'present' %}
+                                    <span class="status-present">✅ Present</span>
+                                {% elif record[1] == 'absent' %}
+                                    <span class="status-absent">❌ Absent</span>
+                                {% else %}
+                                    <span class="status-not-recorded">Not Recorded</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No attendance records found for you.</p>
+    {% endif %}
+{% endblock %}

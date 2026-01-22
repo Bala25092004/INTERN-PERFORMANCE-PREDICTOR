@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intern Performance Predictor - {% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- 🔥 IMPORTANT – THIS ENABLES CARD UI -->
+    {% block extra_css %}{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+</head>
+
+<!-- The data-role attribute is now set dynamically from the Flask session, which is a more robust way to handle themes. -->
+<body data-role="{{ session.get('role', 'intern') }}">
+
+    <!-- Preloader for a smoother loading experience -->
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <div class="flex">
+                <div class="logo">
+                    <a href="{{ url_for('admin_dashboard') if session.get('role') == 'admin' else url_for('intern_dashboard') }}">Intern Predictor</a>
+                </div>
+                <!-- Navigation links are now direct children of the nav element for a cleaner structure -->
+                <nav class="nav-links">
+                    {% if session.logged_in %}
+                        {% if session.role == 'admin' %}
+                            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                            <a href="{{ url_for('student_list') }}">Students</a>
+                            <a href="{{ url_for('add_courses') }}">Courses</a>
+                            <a href="{{ url_for('add_task') }}">Assign Task</a>
+                            <a href="{{ url_for('admin_complete_tasks') }}">Complete Tasks</a>
+                            <a href="{{ url_for('attendance') }}">Attendance</a>
+                            <a href="{{ url_for('admin_performance_overview') }}">Performance</a>
+                            <a href="{{ url_for('admin_leave_requests') }}">Leave Requests</a>
+
+                        {% elif session.role == 'intern' %}
+                            <a href="{{ url_for('intern_dashboard') }}">Dashboard</a>
+                            <a href="{{ url_for('intern_tasks') }}">Tasks</a>
+                            <a href="{{ url_for('intern_attendance') }}">Attendance</a>
+                            <a href="{{ url_for('intern_courses') }}">Courses</a>
+                            <a href="{{ url_for('intern_performance') }}">Performance</a>
+                            <a href="{{ url_for('intern_profile') }}">Profile</a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <a href="javascript:history.back()" class="btn-back-top" title="Go Back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>Back</span>
+            </a>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Advanced Footer with animated background and links -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <p>&copy; 2025 Intern Student Performance Predictor. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Action Buttons for quick access to common actions -->
+    <div class="fab-container">
+        <!-- Back Button -->
+        <a href="javascript:history.back()" class="fab fab-back" title="Go Back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </a>
+        <!-- Scroll to Top Button -->
+        <a href="#" class="fab fab-scroll-top" id="scrollTopBtn" title="Scroll to Top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </a>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Preloader Logic ---
+        const preloader = document.querySelector('.preloader');
+        if (preloader) {
+            window.addEventListener('load', () => {
+                preloader.classList.add('fade-out');
+            });
+        }
+
+        // --- Scroll-to-top Button Logic ---
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        if (scrollTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 200) {
+                    // Show button
+                    scrollTopBtn.classList.add('show');
+                } else {
+                    // Hide button
+                    scrollTopBtn.classList.remove('show');
+                }
+            });
+
+            scrollTopBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Edit Student{% endblock %}
+
+{% block content %}
+
+<h2>Edit Student</h2>
+
+<form method="POST" class="form-card">
+    <label>Name</label>
+    <input type="text" name="name" value="{{ student[1] }}" required>
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{ student[2] }}" required>
+
+    <label>College</label>
+    <input type="text" name="college_name" value="{{ student[3] }}" required>
+
+    <label>Department</label>
+    <input type="text" name="department" value="{{ student[4] }}" required>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="{{ url_for('student_list') }}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}
+{% extends "base.html" %}
+{% block title %}Intern Dashboard{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">👋 Welcome, {{ username }}</h2>
+<p class="subtitle">Here’s a snapshot of your internship progress</p>
+
+<!-- ===== STATS ===== -->
+<div class="stats-grid">
+    <div class="stat-card blue">
+        <h4>Today's Attendance</h4>
+        <p>{{ today_attendance_status|capitalize }}</p>
+    </div>
+    <div class="stat-card green">
+        <h4>Overall Performance</h4>
+        <p>{{ overall_score }}% ({{ predicted_performance }})</p>
+    </div>
+</div>
+
+<!-- ===== DASHBOARD CARDS ===== -->
+<div class="dashboard-grid">
+
+    <a href="{{ url_for('intern_tasks') }}" class="dash-card">
+        <span>📝</span>
+        <h3>My Tasks</h3>
+        <p>View assigned tasks</p>
+    </a>
+
+    <a href="{{ url_for('intern_attendance') }}" class="dash-card">
+        <span>📅</span>
+        <h3>Attendance</h3>
+        <p>Daily records</p>
+    </a>
+
+    <a href="{{ url_for('intern_performance') }}" class="dash-card">
+        <span>📈</span>
+        <h3>Performance</h3>
+        <p>Score & analysis</p>
+    </a>
+
+    <a href="{{ url_for('intern_feedback') }}" class="dash-card">
+        <span>💬</span>
+        <h3>Admin Feedback</h3>
+        <p>Read remarks</p>
+    </a>
+
+    <a href="{{ url_for('intern_send_feedback') }}" class="dash-card">
+        <span>✉️</span>
+        <h3>Send Feedback</h3>
+        <p>Ask questions</p>
+    </a>
+
+    <a href="{{ url_for('intern_courses') }}" class="dash-card">
+        <span>📚</span>
+        <h3>Courses</h3>
+        <p>Learning paths</p>
+    </a>
+
+    <a href="{{ url_for('intern_profile') }}" class="dash-card">
+        <span>👤</span>
+        <h3>Profile</h3>
+        <p>View & update</p>
+    </a>
+
+    <a href="{{ url_for('intern_leave_permission') }}" class="dash-card danger">
+        <span>✈️</span>
+        <h3>Leave</h3>
+        <p>Apply leave</p>
+    </a>
+
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* TITLES */
+.page-title{font-size:28px;font-weight:700}
+.subtitle{color:#6b7280;margin-bottom:20px}
+
+/* STATS */
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:16px;
+    margin-bottom:24px;
+}
+.stat-card{
+    background:#fff;
+    padding:18px;
+    border-radius:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.08)
+}
+.stat-card.blue{border-left:5px solid #2563eb}
+.stat-card.green{border-left:5px solid #16a34a}
+.stat-card p{font-size:20px;font-weight:700}
+
+/* DASHBOARD */
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:18px
+}
+.dash-card{
+    background:#fff;
+    padding:22px;
+    border-radius:18px;
+    text-align:center;
+    text-decoration:none;
+    color:#111;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s
+}
+.dash-card span{font-size:30px}
+.dash-card p{color:#6b7280;font-size:14px}
+.dash-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 14px 40px rgba(0,0,0,.15)
+}
+.dash-card.danger{border:2px solid #fee2e2}
+
+</style>
+{% endblock %}

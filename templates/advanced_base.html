@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <style>
+        :root {
+            --bg-main: #f4f6fb;
+            --bg-card: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg-main);
+            color: var(--text-primary);
+        }
+
+        header {
+            background: #fff;
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 700;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        th {
+            background: #f9fafb;
+        }
+
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+
+        .alert {
+            background: #e0f2fe;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<header>
+    Intern Student Performance Predictor
+</header>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

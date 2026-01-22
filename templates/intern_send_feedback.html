@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Send Feedback to Admin{% endblock %}
+
+{% block content %}
+    <h2 style="color: #2c3e50; text-align: center; margin-bottom: 20px;">Share Your Insights with the Administrator</h2>
+    <p style="text-align: center; color: #555; margin-bottom: 30px;">Your feedback helps us improve the internship experience. Please provide details below.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages" style="margin-bottom: 25px;">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" style="padding: 12px 20px; border-radius: 8px; margin-bottom: 10px; font-size: 1.05rem;">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" style="background-color: #ffffff; padding: 35px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); max-width: 700px; margin: 0 auto;">
+        <label for="subject" style="font-weight: 600; color: #34495e; margin-bottom: 8px; display: block;">Subject:</label>
+        <input type="text" id="subject" name="subject" required placeholder="e.g., Query about Task 5, Suggestion for UI, Bug Report"
+               style="width: calc(100% - 24px); padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+
+        <label for="technical_area" style="font-weight: 600; color: #34495e; margin-bottom: 8px; display: block;">Technical Area (Optional):</label>
+        <select id="technical_area" name="technical_area"
+                style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background-color: #fff;">
+            <option value="">-- Select Technical Area --</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Mobile App Development">Mobile App Development</option>
+            <option value="Cloud Computing">Cloud Computing</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="General IT">General IT</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="urgency_level" style="font-weight: 600; color: #34495e; margin-bottom: 8px; display: block;">Urgency Level:</label>
+        <select id="urgency_level" name="urgency_level" required
+                style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background-color: #fff;">
+            <option value="">-- Select Urgency --</option>
+            <option value="Low">Low - General Suggestion</option>
+            <option value="Medium">Medium - Important, Not Critical</option>
+            <option value="High">High - Requires Prompt Attention</option>
+            <option value="Critical">Critical - System Impairment / Urgent Issue</option>
+        </select>
+
+        <label for="message" style="font-weight: 600; color: #34495e; margin-bottom: 8px; display: block;">Message:</label>
+        <textarea id="message" name="message" rows="8" required placeholder="Type your detailed message here (max 500 characters)..." maxlength="500"
+                  style="width: calc(100% - 24px); padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+        <div id="char-count" style="text-align: right; font-size: 0.9em; color: #777; margin-bottom: 20px;">0 / 500 characters</div>
+
+        <button type="submit"
+                style="background-color: #3498db; color: white; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2rem; font-weight: 600; transition: background-color 0.3s ease, transform 0.2s ease; width: 100%;">
+            Send Feedback
+        </button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageTextarea = document.getElementById('message');
+            const charCount = document.getElementById('char-count');
+
+            if (messageTextarea && charCount) {
+                messageTextarea.addEventListener('input', function() {
+                    const currentLength = messageTextarea.value.length;
+                    const maxLength = messageTextarea.getAttribute('maxlength');
+                    charCount.textContent = `${currentLength} / ${maxLength} characters`;
+                    if (currentLength > maxLength) {
+                        charCount.style.color = 'red';
+                    } else {
+                        charCount.style.color = '#777';
+                    }
+                });
+                // Initialize count on load if there's pre-filled text
+                messageTextarea.dispatchEvent(new Event('input'));
+            }
+        });
+    </script>
+{% endblock %}
