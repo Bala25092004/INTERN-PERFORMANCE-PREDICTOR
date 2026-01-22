@@ -8,6 +8,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
 import qrcode
+
 import os
 from datetime import datetime
 
